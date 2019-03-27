@@ -1,0 +1,148 @@
+题目：约瑟夫环
+班级：电信1809 姓名：王文博  学号：U201813498
+完成时间：2019年3月25日
+一，需求分析
+输入，输出均为int型，不超过30；
+所能达到的功能：实现约瑟夫环，并列出依次出列的小伙伴的位置，救下约瑟夫和他的小伙伴
+操作流程为 定义主函数与数据名=>建立循环链表=>为程序键入数据=>找到所要删除的节点,输出其数据并删除=>结束。
+二，概要设计
+需要建立循环链表，遍历列表以到与密码相同的小伙伴的位置，并通过链表删除掉该节点
+三，详细设计
+           请见附录
+四，调试分析
+关于设计的分析：可以使用递归以实现该程序。使程序更简单
+关于写代码时的分析：在建立循环链表时经常会因为所定义的指针相近而混乱，整个结构也较为混乱。分块，使用子函数与主函数调用。在书写时会因为中文英文输入的改变而使得部分字符在编译时无法识别
+无法处理只输入一个人的情况
+关于调试时的分析：可事先定义好需要键入的数据，省去调试时每次输入数据（在原程序更改）
+五，用户使用说明：根据提示依次输入，m，n分别为报数上限与人数。
+六，测试结果
+(1)	n=7,m=20,pwd=3 1 7 2 4 8 4 result=6 1 4 7 2 3 5
+(2)	(2)  n=6,m=8,pwd=2 5 6 4 7 8 5 reault=2 1 4 5 6 3
+(3)	(3)  n=8,m=16,pwd=5 6 4 8 9 4 2 1 4 result=8 1 6 4 3 5 7 2
+七，附录    #include<stdio.h>
+#include<stdlib.h>
+    #include<malloc.h>
+
+    //1.元素类型，结点类型和指针类型
+
+    typedef struct LNode         //定义结构体，
+
+    {
+
+    int num,pwd;                 //num用来存储人的序号，pwd用来存储人的密码
+
+    struct LNode *next;
+
+    }node;
+
+    struct LNode *head,*p,*pp;    //定义结点
+
+    //2 、创建循环链表函数
+
+    int CreatLinkListFunction(int n)      //参数n传递人数，
+
+    {
+
+    int i;
+
+    head=(struct LNode*)malloc(sizeof(node));   //创建一个带头结点的链表
+
+    p=head;
+
+    for(i=1;i<n;i++)
+
+    {
+
+    pp=(struct LNode*)malloc(sizeof(node));
+
+    p->next=pp;
+
+    p=pp;
+
+    }
+
+    p->next=head; //构成循环链表
+
+    pp=head;
+    return 0;
+    }
+    //3.创建输入密码函数
+
+    int EnterPassword(int n)        //参数n传递人数
+    {
+    int i,k;
+    printf("\n请输入密码: \n");
+
+    for( i=1;i<=n;i++)
+
+    {
+
+    scanf("%d",&k);
+
+    pp->num=i;        //num存储人的序号
+
+    pp->pwd=k;         //pwd存储人的密码
+
+    pp=pp->next;
+
+    }
+
+    pp=p;//创建循环链表  此时P是头结点head  这个函数存入密码 之后再一次返回密码
+
+    return 0;
+
+    }
+
+    //4、将选中的小伙伴出列
+    int OutListFunction(int m,int n)    //参数m、n传递报数上限值和人数
+
+    {
+
+    int i,a;
+
+    for(i=1;i<=n;i++)         //用一个for循环搜索循环链表
+
+    {
+
+    for(a=1;a<m;a++)      //删除结点
+
+    {
+
+    pp=pp->next;
+
+    }
+
+    p=pp->next;
+
+    m=p->pwd;
+
+    printf("%d ",p->num);    //输出人的序号
+
+    pp->next=p->next;
+
+    free(p);          //释放动态申请的结点空间
+    }
+    return 0;
+    }
+
+    //主函数
+
+    void main()
+
+    {   int m,n;   //m为报数上限值，n为人数
+
+    printf("\n参数m、n传递报数分别为上限值和人数;\n");
+
+    printf("\n请输入 m 和n: \n");
+
+    scanf("%d %d",&m,&n);
+
+    CreatLinkListFunction( n);  //调用创建链表函数
+
+    EnterPassword( n);       //调用输入密码函数
+
+    printf("\n出队的人依次是:\n");
+
+    OutListFunction( m,n);      //调用输出链表函数
+
+    }
